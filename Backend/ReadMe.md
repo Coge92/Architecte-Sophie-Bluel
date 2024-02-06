@@ -8,7 +8,7 @@ Après avoir récupéré le REPO executez la commande `npm install` pour install
 
 Une fois les dépendances installées lancez le projet avec la commande `npm start`
 
-Compte de test pour Sophie Bluel
+Compte de test pour Sophie Bluecd l
 
 ```
 email: sophie.bluel@test.tld
