@@ -1,3 +1,5 @@
+
+
 console.log("Hello Works ! ");
 
 // Boutons filtres
@@ -20,6 +22,10 @@ btnTous.addEventListener("click", () => {
 
     resetDisplayWorks() // au clic sur le btn reset, suppression des enfants du container "GalleryContainer"
     generatedDomInsideGalleryContainer(works) // affichage de tous les travaux
+
+    removeSelected()
+    btnTous.classList.add("selected")
+
 })
 
 console.log(btnTous);
@@ -35,6 +41,10 @@ for (let i = 0; i  < categories.length; i++) { // pour chaque catégorie (éleme
     newButton.addEventListener("click", () => {
         btnFilters = newButton.id // recupération du numero de la categorie
         displayWorks(btnFilters) // affichage des travaux ayant le numero de la categorie 
+
+        removeSelected()
+        newButton.classList.add("selected")
+        
         
     })
 
@@ -93,6 +103,14 @@ function resetDisplayWorks() {
     }
 }
 
+function removeSelected() {
+
+    const allFiltersButton = document.querySelectorAll(".menu-filter button")
+
+    allFiltersButton.forEach((button) => button.classList.remove("selected"))
+
+    console.log(allFiltersButton);
 
 
+}
 

@@ -52,6 +52,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	background-color: #fffef8;
 }
 header {
 	display: flex;
@@ -125,6 +126,41 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+/* Ajout de CSS pour les boutons filtres */
+
+#portfolio .menu-filter {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 50px;
+}
+
+.menu-filter button {
+	color: #1D6154;
+	font-family: 'Syne';
+	font-weight: 700;
+	background-color: white;
+	border: #1D6154 1px solid;
+	border-radius: 25px;
+	padding: 10px 15px;
+}
+
+.menu-filter button:hover {
+	color: white;
+	background-color: #1D6154;
+	cursor: pointer;
+}
+
+.menu-filter .selected {
+	color: white;
+	background-color: #1D6154;
+
+}
+
+/* Fin filtres */ 
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -185,4 +221,70 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
+
+/* Ajout Formulaire */ 
+
+#formulaire h2 {
+	padding-bottom: 30px;
+
+}
+
+#formulaire {
+	height: 100vh;
+	font-family: 'Syne';
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 20px;
+
+}
+
+#formulaire form {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: left;
+	gap: 5px;
+}
+
+#formulaire form label {
+	padding-top: 20px;
+}
+
+#formulaire form p {
+	color: red;
+}
+
+#formulaire form input {
+	width: 380px;
+	height: 50px;
+	font-weight: 700;
+	font-size: 1.5rem;
+	border: 1px white solid;
+	box-shadow: 1px 1px 5px rgb(185, 184, 184)
+}
+
+#formulaire form .error {
+	border: rgb(255, 0, 170) 1px solid;
+}
+
+#formulaire form .valide {
+	border: greenyellow 1px solid;	
+}
+
+#formulaire form input[type="submit"] {
+	width: 180px;
+	height: 40px;
+	font-size: 1rem;
+	border: #1D6154 1px solid;
+	transition: transform 200ms ease;
+}
+
+#formulaire form input[type="submit"]:hover {
+	cursor: pointer;
+	transform: scale(1.1);
+}
+
+/* Fin  Formulaire */ 
 
