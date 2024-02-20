@@ -159,31 +159,31 @@ async function connectionUser(userField, passwordField) {
     headers: {"content-Type": "application/json"},
     body: login
 
-    })
+    }) // Ajouter .then pour opti code
 
 
     // reponse code server API
-    let serverStatus = await reponse.status
-    console.log(serverStatus);
+    let serverStatus = await reponse.status // A supprimer
+    console.log(serverStatus); // A supprimer
 
-    let reponseObjetJS = await reponse.json()
-    console.log(reponseObjetJS);
+    let reponseObjetJS = await reponse.json() // A supprimer
+    console.log(reponseObjetJS); // A supprimer
 
-    let messageLogin = ``
+    let messageLogin = `Erreur dans l\’identifiant ou le mot de passe`
 
-    if (serverStatus === 404) {
+    if (serverStatus === 404) {  // Refactoriser avec reponsestatus
         // throw new Error (`user inconnu`)
-        messageLogin = `E-mail ou mot de passe non valide`
+        messageLogin
         ajoutMessageAlertUserOrPassword(messageLogin)
 
 
-    } else if (serverStatus === 401) {
+    } else if (serverStatus === 401) { // Refactoriser avec reponsestatus
         // throw new Error (`MDP not goood`)
-        messageLogin = `E-mail ou mot de passe non valide`
+        messageLogin
         ajoutMessageAlertUserOrPassword(messageLogin)
 
 
-    } else if (serverStatus === 200) {
+    } else if (serverStatus === 200) { // Refactoriser avec reponsestatus
         messageLogin = `Success`
         ajoutMessageAlertUserOrPassword(messageLogin)
         let tokenUser = reponseObjetJS.token
@@ -192,10 +192,10 @@ async function connectionUser(userField, passwordField) {
 
         console.log(tokenUser);
         
-    } else {
-        // throw new Error (`Pas de reponse API`)
+    } else { // Refactoriser avec reponsestatus
+        // throw new Error (`Pas de reponse API`)  
 
-        messageLogin = `E-mail ou mot de passe non valide`
+        messageLogin
         ajoutMessageAlertUserOrPassword(messageLogin)
 
 
@@ -228,7 +228,7 @@ async function connectionUser(userField, passwordField) {
 
 }
 
-function ajoutMessageAlertUserOrPassword(messageLogin) {
+async function ajoutMessageAlertUserOrPassword(messageLogin) {
 
     alertUserOrPassword.innerHTML = messageLogin
     form.insertAdjacentElement("afterend", alertUserOrPassword)
@@ -237,7 +237,7 @@ function ajoutMessageAlertUserOrPassword(messageLogin) {
 
 function sessionTokenised(token) {
 
-    window.localStorage.setItem("token", token)
+    window.sessionStorage.setItem("token", token)
     document.location.href="./index.html"
 }
 

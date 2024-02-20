@@ -1,8 +1,10 @@
+import {modal} from "./modal.js";
 
+modal()
+
+window.localStorage.removeItem("token")
 
 console.log("Hello Works ! ");
-
-// Boutons filtres
 
 const works = await fetch("http://localhost:5678/api/works").then(response => response.json()) // Appel à l'API Get Works et désérialisation
 
@@ -12,7 +14,7 @@ const filtersContainer = document.querySelector(".menu-filter") // Recup du pare
 
 const galleryContainer = document.querySelector(".gallery") // Recup du parent Div Class gallery
 
-// Boutons
+// Boutons filtres
 
 let btnFilters = "" // initialisation de la variable filtre qui contiendra le numero de la categorie à afficher
 
@@ -96,6 +98,8 @@ async function generatedDomInsideGalleryContainer(worksList) {
 
     
 function resetDisplayWorks() {
+
+    console.log(galleryContainer.firstChild);
 
     while (galleryContainer.firstChild) { // tant qu'il y a un firstchild
     
