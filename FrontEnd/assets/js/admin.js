@@ -189,8 +189,6 @@ async function connectionUser(userField, passwordField) {
         let tokenUser = reponseObjetJS.token
 
         sessionTokenised(tokenUser)
-
-        console.log(tokenUser);
         
     } else { // Refactoriser avec reponsestatus
         // throw new Error (`Pas de reponse API`)  

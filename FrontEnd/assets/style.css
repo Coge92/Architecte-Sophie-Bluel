@@ -400,27 +400,27 @@ footer nav ul {
 	cursor: pointer;
 }
 
-.addRealisation, .addRealisation form, .addRealisation .insertPhotoContainer, .addConfirmRealisation, .addConfirmRealisation form, .addConfirmRealisation .insertPhotoContainer {
+.addRealisation, .addRealisation form, .addRealisation .insertPhotoContainer {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
 
-.addRealisation, .addConfirmRealisation {
+.addRealisation {
 	gap: 40px;
 }
 
-.addRealisation form, .addConfirmRealisation form {
+.addRealisation form {
 
 	align-items: flex-start;
 }
 
-.addRealisation form .label, .addConfirmRealisation form .label {
+.addRealisation form .label {
 	margin-top: 30px;
 }
 
-.addRealisation form #image-title, .addRealisation form #image-categorie, .addConfirmRealisation form #image-title-confirm, .addConfirmRealisation form #image-categorie-confirm {
+.addRealisation form #image-title, .addRealisation form #image-categorie {
 
 	margin-top: 10px;
 	border: 0;
@@ -434,19 +434,19 @@ footer nav ul {
 	padding-right: 15px;
 }
 
-.addRealisation form #image-title, .addConfirmRealisation form #image-title-confirm {
+.addRealisation form #image-title {
 
 	width: 380px;
 
 }
 
-.addRealisation form #image-categorie, .addConfirmRealisation form #image-categorie-confirm {
+.addRealisation form #image-categorie {
 
 	width: 410px;
 	margin-bottom: 30px;
 }
 
-.addRealisation form button, .addConfirmRealisation form button {
+.addRealisation form button {
 	width: 230px;
 	height: 35px;
 	border: 0;
@@ -455,7 +455,7 @@ footer nav ul {
 }
 
 
-.addRealisation .insertPhotoContainer, .addConfirmRealisation .insertPhotoContainer {
+.addRealisation .insertPhotoContainer {
 
 	justify-content: flex-start;
 	background-color: #e8f1f6;
@@ -504,9 +504,28 @@ footer nav ul {
 	color: red;
 }
 
-.addConfirmRealisation #photo-preview {
+.addRealisation .photoContainerPreview {
 
-	/* width: 170px; */
-	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }
 
+.addRealisation #photo-preview {
+
+	
+	max-width: 410px;
+	max-height: 220px;
+}
+
+#errorMessage {
+
+	margin: auto;
+	padding-top: 15px;
+}
+
+#logout {
+	cursor: pointer;
+}
