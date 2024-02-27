@@ -2,40 +2,39 @@ console.log("Hello Works ! ");
 
 let works = await fetch("http://localhost:5678/api/works").then(response => response.json()) // Appel à l'API Get Works et désérialisation
 const categories = await fetch("http://localhost:5678/api/categories").then(response => response.json())
-let token = window.sessionStorage.getItem("token")
-console.log(token);
 
-const filtersContainer = document.querySelector(".menu-filter") // Recup du parent Div Class menu-filter
-const galleryContainer = document.querySelector(".gallery") // Recup du parent Div Class gallery
-const btnTous = document.querySelector(".menu-filter #reset") // recup du bouton reset 
-
-const modalWindow = document.getElementById("modal1") // aside
-const modifyButton = document.getElementById("lien-modifier") // Lien "Modifier" sur la home
+const filtersContainer = document.querySelector(".menu-filter") // HomePage : Recupération du parent Div Class menu-filter
+const galleryContainer = document.querySelector(".gallery") // HomePage : Recup du parent Div Class gallery
+const btnTous = document.querySelector(".menu-filter #reset") // HomePage : recup du bouton reset 
+const modalWindow = document.getElementById("aside-modal") // HomePage : aside
+const modifyButton = document.getElementById("lien-modifier") // HomePage : Lien "Modifier" sur la home
+const logout = document.getElementById("logout") // HomePage : Lien "logout" en pied de page
 
 const iconContainer = document.querySelector(".iconContainer") // Container des icones en TOP de la modale
 const xcrossButton = document.querySelector(".fa-xmark") // Croix pour fermer dans la modale
 
 const pageModal1 = document.querySelector(".editableGalleryContainer") // Modale 1 : Galerie photo avec suppression possible 
-const editableContainer = document.querySelector(".editableGallery") // Gallery editable dans la modale 1
+const editableContainer = document.querySelector(".editableGallery") // Modale 1 : Gallery editable dans la modale 1
 const buttonAddPhoto = document.getElementById("btn-add-photo") // Modale 1 : bouton "ajouter une photo"
 
 const pageModal2 = document.querySelector(".addRealisation") // Modale 2 : "ajouter une photo"
 const iconArrowLeftModale2 = document.getElementById("arrow-left-add-real") // Modale 2 : Icone Left pour revenir à la modale 1 depuis la modale 2
 const formAddRealisation = document.querySelector(".addRealisation form") // Modale 2 : Formulaire
-const insertPhotoContainer = document.querySelector(".insertPhotoContainer")
-const photoContainerPreview = document.querySelector(".photoContainerPreview")
+const insertPhotoContainer = document.querySelector(".insertPhotoContainer") // Modale 2 : Div pour Uploader une image 
+const photoContainerPreview = document.querySelector(".photoContainerPreview") // Modale 2 : Div pour Visualisé l'image avant de l'envoyer à l'API
 const menuSelectCategorie = document.getElementById("image-categorie") // Modale 2 : 
 const inputTitleModale2 = document.getElementById("image-title") // Modale 2 : Input Titre
 const buttonAddARealisation = document.getElementById("buttonAddARealisation") // Modale 2 : Bouton Ajouter une réalisation
 
-
 const imgPreviewUpload = document.getElementById("photo-preview")
 const imgTitleConfirm = document.getElementById("image-title-confirm")
 
-const logout = document.getElementById("logout")
+
 let btnFilters = "" // initialisation de la variable filtre qui contiendra le numero de la categorie à afficher
 
-checkLogin()
+let token = window.sessionStorage.getItem("token")
+
+checkLogin() // Check si token est stocké, si token présent => Lien modifié activé sur la HomePage
 dynamicGalleryHomePage() // Afficher tous les travaux par defaut (au chargement de la page)
 
 // Boutons filtres \\
@@ -69,9 +68,7 @@ for (let i = 0; i  < categories.length; i++) { // pour chaque catégorie (éleme
     })
 
     filtersContainer.appendChild(newButton) // attachement du bouton au parent Div Class menu-filter   
-
 }
-
 
 // Fonctions pour générer la gallery en HomePage \\
 
@@ -93,12 +90,10 @@ async function dynamicGalleryHomePage() { // Affiche toutes es réalisations ren
         newFigure.id = `${works[i].id}` // ajout d'un ID à figure correspondant à l'ID de la réalisation
         newFigure.appendChild(newImage) // attachement de l'enfant img à figure
         newFigure.appendChild(newFigCaption) // attachement de figcaption à figure
-        galleryContainer.appendChild(newFigure) // attachement de figure au parent Div Class Gallery
-        
+        galleryContainer.appendChild(newFigure) // attachement de figure au parent Div Class Gallery    
     }
 }
 
-    
 function resetDynamicGalleryHomePage() { // Supprime toutes les réalisations de la galerie en HomePage
 
     while (galleryContainer.firstChild) { // tant qu'il y a un firstchild
@@ -106,8 +101,6 @@ function resetDynamicGalleryHomePage() { // Supprime toutes les réalisations de
         galleryContainer.removeChild(galleryContainer.firstChild) // supprimer le first child -- Permet de supprimer tous les "figure" générés dans la fonction dynamicGalleryHomePage
     }
 }
-
-
 
 async function filteredDynamicGalleryHomePage(filterNumber) {  // fonction pour reset l'affichage des travaux et afficher les travaux filtrés par categorie
 
@@ -136,8 +129,7 @@ async function filteredDynamicGalleryHomePage(filterNumber) {  // fonction pour 
     }
 }
 
-
-function removeSelected() { // Supprime la class "Selected" de tous les boutons
+function removeSelected() { // Supprime la class "Selected" de tous les boutons filtres
 
     const allFiltersButton = document.querySelectorAll(".menu-filter button")
     allFiltersButton.forEach((button) => button.classList.remove("selected"))
@@ -152,6 +144,8 @@ const nameFileBloc = document.getElementById("fileName")
 let fileSizeStatus = false
 let fileTypeStatus = false
 let inputTitleStatus = false
+let menuSelectCategorieStatus = false
+let selectedIndexMenuCategories = null
 
 let optionCategoriesAPI = ""
 
@@ -170,18 +164,18 @@ modifyButton.addEventListener("click", () => { // click sur le lien "modifier" =
 })
 
 xcrossButton.addEventListener("click", () => { // click sur la croix dans la Modal => Ferme la modal et reset
-    closeModal()
+    closeModal() // ferme et reset la Modale
 })
 
 window.addEventListener("keydown", function(e) {  // Pression clavier sur Echape => Ferme la modal et reset
     if (e.key === "Escape" || e.key === "Esc") {
-        closeModal()
+        closeModal() // ferme et reset la Modale
     }
 })
 
 modalWindow.addEventListener("click", (event) => { // click en dehors de la modale => Ferme la modal et reset
-    if (event.target.id === "modal1") {
-        closeModal()
+    if (event.target.id === "aside-modal") {
+        closeModal() // ferme et reset la Modale
     }
 })
 
@@ -191,7 +185,7 @@ buttonAddPhoto.addEventListener("click", () => { // click sur le bouton "Ajouter
 
 
 iconArrowLeftModale2.addEventListener("click", () => { // click sur la flèche en haut à gauche => retour à la modale 1
-    modal2ToModale1()
+    modal2ToModale1() // Cache la Modale 2 et affiche la Modale 1
     formAddRealisation.reset()
     nameFileBloc.innerHTML = ""
 })
@@ -204,57 +198,55 @@ buttonAddARealisation.addEventListener("click", (event) => {
 
     if (fileSizeStatus && fileTypeStatus && inputTitleStatus && menuSelectCategorieStatus) {
         errorMessage.innerText = ""
-        sendNewReal()
+        sendNewReal() // Envoie le fichier à l'API, avec sa catégorie et son titre, affiche un message si ok ou si erreur
 
     } else {
-        console.log("conditions ne sont pas reunies");
+        // console.log("conditions ne sont pas reunies");
         errorMessage.innerText = ""
         errorMessage.removeAttribute("style")
-        errorMessage.innerText = "Erreur : Fichier non conforme ou champs non complété"
+        errorMessage.innerText = "Erreur : Fichier non conforme ou champs non renseigné"
         errorMessage.setAttribute("style", "color:red;")
 
         buttonAddARealisation.insertAdjacentElement("afterend", errorMessage)
 
     }
-    console.log("click");
-
-})
+ })
 
 
-async function openModal() {
+async function openModal() { 
 
-    modalWindow.removeAttribute("style");
-    modalWindow.removeAttribute("aria-hidden");
-    modalWindow.setAttribute("aria-modal","true")
+    modalWindow.removeAttribute("style"); // Supprime atr style="display:none" => Affiche la Modale
+    modalWindow.removeAttribute("aria-hidden"); // supprime aria-hidden, la Modale est considérée visible pour les outils d'accessibilité
+    modalWindow.setAttribute("aria-modal","true") // indique la modale est affichée pour les outils d'accessibilité
 
-    deleteGalleryModal1()
-    galleryModal1()
+    deleteGalleryModal1() // Supprime toutes les réalisations de la galerie de la Modale 1
+    galleryModal1() // Appel l'API et affiche toutes les réalisations dans la galerie de la Modale 1
 
-    pageModal1.removeAttribute("style")
-    pageModal2.setAttribute("style", "display: none;") // Enleve la modale 2
+    pageModal1.removeAttribute("style") // Supprime atr style="display:none" => Affiche la Modale 1
+    pageModal2.setAttribute("style", "display: none;") // Cache la modale 2
 
 }
 
-async function closeModal(event) {
+async function closeModal() { // ferme et reset la Modale
 
 
-    modalWindow.setAttribute("style","display: none;");
-    modalWindow.setAttribute("aria-hidden","true")
-    modalWindow.removeAttribute("aria-modal")
+    modalWindow.setAttribute("style","display: none;"); // Cache la Modale 
+    modalWindow.setAttribute("aria-hidden","true") // la Modale est considérée cachée pour les outils d'accessibilité 
+    modalWindow.removeAttribute("aria-modal") // indique la modale n'est pas affichée pour les outils d'accessibilité
 
-    deleteGalleryModal1() // supprime toutes les images générées par galleryModal1 
+    deleteGalleryModal1() // Supprime toutes les réalisations de la galerie de la Modale 1
 
-    resetFormAddReal() // reset le formulaire pour que les données renseignées précédement soient supprimées
+    resetFormAddReal() // reset le formulaire de la modale 2 pour que les données renseignées précédement soient supprimées
 
     pageModal2.setAttribute("style", "display: none;") // Enleve la modale 2
 
     resetButtonAllCategories() // Affiche toutes les réalisations sans filtre
 
-    modal2ToModale1()
+    modal2ToModale1() // Cache la Modale 2 et affiche la Modale 1
 
 }
 
-function resetFormAddReal() {
+function resetFormAddReal() { // reset le formulaire de la modale 2 pour que les données renseignées précédement soient supprimées
 
     imgPreviewUpload.src = ""
     formAddRealisation.reset()
@@ -264,14 +256,14 @@ function resetFormAddReal() {
     inputTitleStatus = false
     menuSelectCategorieStatus = false
 
-    insertPhotoContainer.removeAttribute("style")
-    photoContainerPreview.setAttribute("style", "display:none;")
+    insertPhotoContainer.removeAttribute("style") // Affiche la Div pour Uploader une image
+    photoContainerPreview.setAttribute("style", "display:none;") // Cache la Div qui visualise l'image Uploadé
 
     errorMessage.innerText = ""
 
 }
 
-function modal1ToModal2() {
+function modal1ToModal2() { // Cache la Modale 1 et affiche la Modale 2
 
     iconContainer.setAttribute("style", "justify-content: space-between;") // changement du CSS pour mettre la fleche retour à gauche et la croix pour fermer la modale à droite
     iconArrowLeftModale2.removeAttribute("style") // affichage de la flèche gauche en supprimant l'attribut style="display:none" dans l'HTML
@@ -279,29 +271,29 @@ function modal1ToModal2() {
     pageModal1.setAttribute("style", "display: none;") // n'affiche plus la fenetre modale 1
     pageModal2.removeAttribute("style") // affiche la fenetre modale 2
 
-    categoriesForNewRealisation() // génére les categories en faisant une requète à l'API
-    activeButtonModal2()
+    categoriesForNewRealisation() // // Génère et affiche les catégories dans le menu "selectionné une catégorie" 
+    activeButtonModal2() // Active le bouton si la taille et le type du fichier sont correctes, qu'un titre et une categorie sont renseignés dans le formulaire
 
 
 }
 
-function modal2ToModale1() {
+function modal2ToModale1() { // Cache la Modale 2 et affiche la Modale 1
 
     iconArrowLeftModale2.setAttribute("style", "display: none;") // Enleve la fléche gauche de la modale 2
-    iconContainer.removeAttribute("style") 
+    iconContainer.removeAttribute("style") // supprime "justify-content : space-between;" pour remettre le CSS par defaut "flex-end" et laisser la croix reste à droite de la Modale
 
-    pageModal2.setAttribute("style", "display: none;") // Enleve la modale 2
-    pageModal1.removeAttribute("style") // afiiche la modale 1
+    pageModal2.setAttribute("style", "display: none;") // cache la modale 2
+    pageModal1.removeAttribute("style") // affiche la modale 1
 
-    resetFormAddReal()
-    deleteOptionsCategoriesApi() 
-    deleteGalleryModal1()
-    galleryModal1()
+    resetFormAddReal() // reset le formulaire de la modale 2 pour que les données renseignées précédement soient supprimées
+    deleteOptionsCategoriesApi() // Supprime les catégories du menu "selectionné une catégorie"
+    deleteGalleryModal1() // Supprime toutes les réalisations de la galerie de la Modale 1
+    galleryModal1() // Appel l'API et affiche toutes les réalisations dans la galerie de la Modale 1
 
 }
 
 
-async function galleryModal1() {
+async function galleryModal1() { // Appel l'API et affiche toutes les réalisations dans la galerie de la Modale 1
 
     works = await fetch("http://localhost:5678/api/works").then(response => response.json()) // Appel à l'API Get Works et désérialisation
 
@@ -335,7 +327,7 @@ async function galleryModal1() {
     })
 }
 
-function deleteGalleryModal1() {
+function deleteGalleryModal1() { // Supprime toutes les réalisations de la galerie de la Modale 1
 
     let editableContainerChild = document.querySelectorAll(".editableGallery figure")
     for (let i = 0 ; i < editableContainerChild.length ; i++) {
@@ -344,7 +336,7 @@ function deleteGalleryModal1() {
 }
 
 
-async function deleteRealisationAPI(idreal) {
+async function deleteRealisationAPI(idreal) { // 
 
     await fetch(`http://localhost:5678/api/works/${idreal}`, {
         
@@ -354,7 +346,7 @@ async function deleteRealisationAPI(idreal) {
         }
     })
 
-    closeModal()
+    closeModal() // ferme et reset la Modale
     
 } 
 
@@ -364,69 +356,59 @@ async function deleteRealisationAPI(idreal) {
 fileInput.addEventListener("change", (event) => {
 
     file = event.target.files
-    console.log(file[0]);
-    console.log(file[0].name);
-
     imgPreviewUpload.src = URL.createObjectURL(file[0])    
     nameFileBloc.innerHTML = ""
 
-    checkSizeFile(file[0].size)
-    checkTypeFile(file[0].type)
+    checkSizeFile(file[0].size) // vérifie la taille du fichier
+    checkTypeFile(file[0].type) // vérifie le type de fichier
 
-    displayPreview()
-    activeButtonModal2()
+    displayPreview() // Si la taille et le type de fichier est correcte => Visualise l'image 
+    activeButtonModal2() // Active le bouton si la taille et le type du fichier sont correctes, qu'un titre et une categorie sont renseignés dans le formulaire
 
 })
 
-function displayPreview() {
+function displayPreview() { // Si la taille et le type de fichier sont correctes => Visualise l'image 
 
     if (fileSizeStatus && fileTypeStatus) {
 
-        insertPhotoContainer.setAttribute("style", "display:none;")
-        photoContainerPreview.removeAttribute("style")
+        insertPhotoContainer.setAttribute("style", "display:none;") // Cache la Div pour uploadé l'image
+        photoContainerPreview.removeAttribute("style") // Affiche la Div pour visualisé l'image
 
     } else {
 
-        nameFileBloc.innerHTML = alertSize + alertType
+        nameFileBloc.innerHTML = alertSize + alertType // Affiche un message d'alert
     }
 }
 
-    function checkSizeFile(size) {
+function checkSizeFile(size) { // vérifie la taille du fichier
 
-        let fileSizeKByte = Math.round(size / 1024)
-        
+    let fileSizeKByte = Math.round(size / 1024) // convertie en KiloByte et arrondi à l'entier le plus proche
 
-        console.log(size);
-        console.log(fileSizeKByte);
+    if (fileSizeKByte > 0 && fileSizeKByte < 4096) {
+        // console.log("taille sup à 0 et inférieur à 4096");
+        alertSize = ""
+        fileSizeStatus = true 
 
-
-        if (fileSizeKByte > 0 && fileSizeKByte < 4096) {
-            console.log("taille sup à 0 et inférieur à 4096");
-            alertSize = ""
-            fileSizeStatus = true
-
-        } else {
-            alertSize = "<br><span>Fichier trop volumineux, supérieur à 4mo !</span>"  
-            console.log("taille sup à 4096");
-            fileSizeStatus = false
-        }
-
+    } else {
+        alertSize = "<br><span>Fichier trop volumineux, supérieur à 4mo !</span>"  
+        // console.log("taille sup à 4096");
+        fileSizeStatus = false
     }
+}
 
-    function checkTypeFile(type) {
+function checkTypeFile(type) { // vérifie le type de fichier
 
-        console.log("test type activé, format : "+ type);
+    // console.log("test type activé, format : "+ type);
 
-        if (type === "image/jpeg" || type === "image/png") {
-            alertType = ""
-            fileTypeStatus = true       
-        } else {         
-            console.log("fichier diff de jpg");
-            alertType = "<br><span>Fichier non valide, format accepté : .jpg ou .png !</span>"
-            fileTypeStatus = false
-        }
+    if (type === "image/jpeg" || type === "image/png") {
+        alertType = ""
+        fileTypeStatus = true       
+    } else {         
+        console.log("fichier différent de jpg");
+        alertType = "<br><span>Fichier non valide, format accepté : .jpg ou .png !</span>"
+        fileTypeStatus = false
     }
-
+}
 
 inputTitleModale2.addEventListener("change", (event) => {     
 
@@ -436,19 +418,17 @@ inputTitleModale2.addEventListener("change", (event) => {
         inputTitleStatus = true
     }
 
-    activeButtonModal2()
+    activeButtonModal2() // Active le bouton si la taille et le type du fichier sont correctes, qu'un titre et une categorie sont renseignés dans le formulaire
 
 })
 
-function categoriesForNewRealisation() {
+function categoriesForNewRealisation() { // Génère et affiche les catégories dans le menu "selectionné une catégorie" 
 
-    console.log("Regénération des options de cateogries");
-
-    let catogieDisabled = document.createElement("option")
+    let catogieDisabled = document.createElement("option") // ajout d'une première option désactivée qui s'appelle "- choisissez la catégorie -"
     catogieDisabled.value = ""
     catogieDisabled.setAttribute("Disabled", "disabled")
     catogieDisabled.setAttribute("selected", "selected")
-    catogieDisabled.innerText = "Choisissez la catégorie -"
+    catogieDisabled.innerText = "- Choisissez la catégorie -"
     menuSelectCategorie.appendChild(catogieDisabled)
 
 
@@ -464,7 +444,7 @@ function categoriesForNewRealisation() {
     }
 }
 
-function deleteOptionsCategoriesApi() {
+function deleteOptionsCategoriesApi() { // Supprime les catégories du menu "selectionné une catégorie"
 
     let listCategories = document.querySelectorAll("option")
 
@@ -475,8 +455,7 @@ function deleteOptionsCategoriesApi() {
 }
 
 
-let selectedIndexMenuCategories = null
-let menuSelectCategorieStatus = false
+
 
 menuSelectCategorie.addEventListener("change", (event) => {
 
@@ -484,13 +463,12 @@ menuSelectCategorie.addEventListener("change", (event) => {
         menuSelectCategorieStatus = true
     }
 
-    activeButtonModal2()
+    activeButtonModal2() // Active le bouton si la taille et le type du fichier sont correctes, qu'un titre et une categorie sont renseignés dans le formulaire
     selectedIndexMenuCategories = menuSelectCategorie.selectedIndex
-    console.log(selectedIndexMenuCategories);
 })
 
 
-function activeButtonModal2() {
+function activeButtonModal2() { // Active le bouton si la taille et le type du fichier sont correctes, qu'un titre et une categorie sont renseignés dans le formulaire
 
     if (fileSizeStatus && fileTypeStatus && inputTitleStatus && menuSelectCategorieStatus) {
 
@@ -504,7 +482,7 @@ function activeButtonModal2() {
 }
 
 
-async function sendNewReal() {
+async function sendNewReal() { // Envoie le fichier à l'API, avec sa catégorie et son titre, affiche un message si ok ou si erreur
 
     let formData = new FormData()
     formData.append("image", file[0])
@@ -525,9 +503,8 @@ async function sendNewReal() {
 
         errorMessage.removeAttribute("style")
         errorMessage.setAttribute("style", "color: green;")
-        errorMessage.innerText = "Image ajouté !"
+        errorMessage.innerText = "Image ajoutée !"
         buttonAddARealisation.insertAdjacentElement("afterend", errorMessage)
-        console.log("Image ajouté !");
 
     } else if (returnApiForPushRealisation.status == 400) {
 
@@ -552,13 +529,11 @@ async function sendNewReal() {
 
     } 
 
-    setTimeout(() => { closeModal() }, 3000)
+    setTimeout(() => { closeModal() }, 3000) // // ferme et reset la Modale après 3 secondes 
 
 }
 
-function checkLogin() {
-
-    console.log("check login activé");
+function checkLogin() { // Check si token est stocké, si token présent => Lien modifié activé sur la HomePage
 
     let modifyLink = document.querySelector(".js-modal")
 

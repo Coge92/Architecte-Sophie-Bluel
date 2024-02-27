@@ -42,15 +42,16 @@
 			<a href="#modal" class="js-modal" id="lien-modifier" style="display: none;"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
 		</div>
 
-		<aside id="modal1" class="modal" aria-labelledby="titleModal" aria-hidden="true" role="dialog" style="display: none;"> <!-- Aria-hidden pour indiquer que le contenu n'est pas visible; role = définir l'objectif de la div -->
+		<aside id="aside-modal" class="modal" aria-labelledby="titleModal" aria-hidden="true" role="dialog" style="display: none;"> <!-- Aria-hidden pour indiquer que le contenu n'est pas visible; role = définir l'objectif de la div -->
 			<div class="modal-wrapper" >
-				<div class="iconContainer"><i class="fa-solid fa-arrow-left" id="arrow-left-add-real" style="display: none;"></i><i class="fa-solid fa-arrow-left" id="arrow-left-add-confirm" style="display: none;"></i><i class="fa-solid fa-xmark"></i></div>
+				<div class="iconContainer"><i class="fa-solid fa-arrow-left" id="arrow-left-add-real" style="display: none;"></i><i class="fa-solid fa-xmark"></i></div>
 				<h1 id="titleModal">Interface Administateur</h1>
 
 				<!--  Modal 1 - Galerie pour supprimer les réalisations -->
 				<div class="editableGalleryContainer">
 					<h2>Galerie Photo</h2>
 					<div class="editableGallery"></div>
+					<hr />
 					<button id="btn-add-photo" class="selected">Ajouter une photo</button>
 				</div>
 				<!--  Fin Modal 1 -->
@@ -60,7 +61,7 @@
 					<form>
 						<div class="insertPhotoContainer">
 							<i class="fa-regular fa-image"></i>
-							<label for="name" id="btn-insert-file">+ Ajouter photo<input type="file" name="name" id="name" class="input-file"></label>
+							<label for="name" id="btn-insert-file"><input type="file" name="name" id="name" class="input-file">+ Ajouter photo</label>
 							<p>jpg, png : 4mo max</p>
 							<p id="fileName"></p>
 						</div>
@@ -71,6 +72,7 @@
 						<input type="text" name="text" id="image-title">
 						<label for="categories" class="label">Catégorie</label>
 						<select name="categories" id="image-categorie" aria-placeholder="Choisissez la categorie"></select>
+						<hr />
 						<button id="buttonAddARealisation" style="background-color: grey; cursor: not-allowed;" >Valider</button>
 					</form>
 				</div>

@@ -364,7 +364,7 @@ footer nav ul {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 75px;
+	gap: 30px;
 }
 
 .editableGalleryContainer #btn-add-photo {
@@ -408,7 +408,7 @@ footer nav ul {
 }
 
 .addRealisation {
-	gap: 40px;
+	gap: 25px;
 }
 
 .addRealisation form {
@@ -436,13 +436,12 @@ footer nav ul {
 
 .addRealisation form #image-title {
 
-	width: 380px;
-
+	width: 410px;
 }
 
 .addRealisation form #image-categorie {
 
-	width: 410px;
+	width: 440px;
 	margin-bottom: 30px;
 }
 
@@ -459,21 +458,21 @@ footer nav ul {
 
 	justify-content: flex-start;
 	background-color: #e8f1f6;
-	width: 410px;
+	width: 442px;
 	height: 220px;
 	border-radius: 5px;
-	margin-bottom: 20px;
 	gap: 15px;
 }
 
 .insertPhotoContainer .fa-image {
 	margin-top: 15px;
 	font-size: 5em;
-	color: #b9c5cc;
+	color: #cbd6dc;
 }
 
 .insertPhotoContainer .input-file {
 	width: 0px;
+	height: 0px;
 }
 
 .insertPhotoContainer #btn-insert-file {
@@ -483,10 +482,14 @@ footer nav ul {
 	background-color: #cbd6dc;
 	border-radius: 25px;
 	width: 170px;
-	height: 35px;
-	padding: 6px;
+	height: 35px;	
+	padding: 3px 3px 3px 3px;
 	text-align: center;
 	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .insertPhotoContainer p {
@@ -514,8 +517,6 @@ footer nav ul {
 }
 
 .addRealisation #photo-preview {
-
-	
 	max-width: 410px;
 	max-height: 220px;
 }
@@ -528,4 +529,12 @@ footer nav ul {
 
 #logout {
 	cursor: pointer;
+}
+
+hr {
+	width: 440px;
+}
+
+#buttonAddARealisation {
+	margin-top: 25px;
 }
