@@ -29,6 +29,8 @@ const buttonAddARealisation = document.getElementById("buttonAddARealisation") /
 const imgPreviewUpload = document.getElementById("photo-preview")
 const imgTitleConfirm = document.getElementById("image-title-confirm")
 
+const bannerTop = document.getElementById("banner")
+const btnLogin = document.getElementById("login") 
 
 let btnFilters = "" // initialisation de la variable filtre qui contiendra le numero de la categorie à afficher
 
@@ -82,7 +84,7 @@ async function dynamicGalleryHomePage() { // Affiche toutes es réalisations ren
         newImage.src = `${works[i].imageUrl}` // ajout de la source de l'img 
         newImage.alt = `${works[i].title}` // ajout de l'attribut alt
 
-        let newFigCaption = document.createElement("figcaption") // Création de l'HTML Element Figcaption
+        let newFigCaption = document.createElement("figcaption") // Création de l'HTML Element Figcaption - legende de la photo
         newFigCaption.innerText = `${works[i].title}` // ajout du texte dans la balise figcaption
 
 
@@ -497,7 +499,7 @@ async function sendNewReal() { // Envoie le fichier à l'API, avec sa catégorie
     },
     body: formData
     })
-
+    
 
     if (returnApiForPushRealisation.status == 201) {
 
@@ -538,20 +540,25 @@ function checkLogin() { // Check si token est stocké, si token présent => Lien
     let modifyLink = document.querySelector(".js-modal")
 
     if (token !== null) {
-        modifyLink.removeAttribute("style")
+        modifyLink.removeAttribute("style") // affiche le bouton "modifier"
+        bannerTop.removeAttribute("style") // affiche la bannière TOP avec fond noir
+        filtersContainer.setAttribute("style", "display: none;") // N'affiche pas les boutons filtres
+        btnLogin.innerText = "logout"
 
     } else { 
-        modifyLink.setAttribute("style", "display: none;")
+        modifyLink.setAttribute("style", "display: none;") // n'affiche pas le bouton "modifier"
+        bannerTop.setAttribute("style", "display: none;") // n'affiche pas la bannière TOP avec fond noir
+        filtersContainer.removeAttribute("style") // affiche les boutons filtres
+
     }
 
 }
     
-logout.addEventListener("click", () => {
+btnLogin.addEventListener("click", () => {
 
+if (btnLogin.innerText == "logout") {
     sessionStorage.removeItem("token")
-
-    console.log(sessionStorage.getItem("token"));
-
     location.reload()
-
-})
+    checkLogin()
+}
+}) 
